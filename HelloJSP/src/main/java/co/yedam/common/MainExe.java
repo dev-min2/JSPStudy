@@ -1,31 +1,32 @@
 package co.yedam.common;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import co.yedam.student.service.StudentService;
+import co.yedam.student.service.StudentVO;
+import co.yedam.student.serviceImpl.StudentServiceImpl;
 
 public class MainExe {
-	public static void main(String[] args) {
-		Connection conn = DBConnectionPool.getInstance().getPoolConnection();
-		PreparedStatement pstmt = null;
+	public static void main(String[] args) throws ParseException {
+		StudentService svc = new StudentServiceImpl();
 		
-		try {
-			pstmt = conn.prepareStatement("select * from student");
-			
-			ResultSet set = pstmt.executeQuery();
-			while(set.next()) {
-				System.out.println("학생번호 : " + set.getString(1));
-				System.out.println("이름 : " + set.getString(2));
-				System.out.println("비번 : " + set.getString(3));
-				System.out.println("과 : " + set.getString(4));
-				System.out.println("생일 : " + set.getDate(5));
-			}
-			set.close();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		StudentVO vo = new StudentVO();
+		vo.setStudentId("minkk");
+		vo.setStudentName("킹민교2");
+		vo.setStudentPassword("123456");
+		vo.setStudentDept("건축공학과");
+		vo.setStudentBirthday(sdf.parse("2001-05-05"));
 		
-		DBConnectionPool.getInstance().returnConnection(conn);
+		List<StudentVO> vo2 =svc.listStudent();
+//		
+//		vo2.stream().forEach((obj) -> {
+//			System.out.println(obj);
+//		});
+		
+		svc.editStudent(vo);
+		
 	}
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>student/studentInfo.html</title>
+	<style>
+		table {
+			width: 100%;
+		}
+
+		table td {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="show">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>생년월일</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+	</div>
+	<script>
+		// 페로되면서 바로 실행
+		fetch('../studentList.do')
+			.then(resolve => {
+				return resolve.json();
+			})
+			.then(result => {
+				console.log(result);
+
+				let tbody = document.querySelector('#list');
+
+				let tableTag = document.querySelector('table');
+				result.forEach((json) => {
+					tbody.appendChild(makeTr(json));
+				})
+
+			})
+			.catch(reject => {
+				console.log("에러에러 : ", reject);
+			})
+
+		function makeTr(obj) {
+			let showFields = ['studentId', 'studentName', 'studentBirthday'];
+
+			let tr = document.createElement('tr');
+			for (const prop in obj) {
+				if (showFields.indexOf(prop) < 0)
+					continue;
+
+				const td = document.createElement('td');
+				td.innerHTML = obj[prop];
+
+				tr.appendChild(td);
+			}
+
+			const td = document.createElement('td');
+			let btn = document.createElement('button');
+			btn.innerHTML = '삭제';
+			btn.setAttribute('style', 'width:100%');
+			btn.setAttribute('date-sid', obj.studentId); // dataset.sid으로 접근.
+			btn.addEventListener('click', (e) => {
+
+				// ajax 호출 -> 서블릿
+				fetch('../delStudent.do?studentId=' + obj.studentId)
+					.then(resolve => {
+						return resolve.json()
+					})
+					.then(result => {
+						if(result.retCode == "OK") {
+							alert("지웠음")
+							tr.remove();
+						}
+						else
+							alert("안지워짐")
+					})
+					.catch(reject => {
+						console.log("에러 : ", reject);
+					})
+			})
+
+			td.append(btn);
+			tr.append(td);
+			return tr;
+		}
+	</script>
+</body>
+
+</html>
