@@ -2,8 +2,8 @@ package co.yedam.student.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import co.yedam.student.service.StudentService;
 import co.yedam.student.service.StudentVO;
 import co.yedam.student.serviceImpl.StudentServiceImpl;
@@ -22,14 +19,14 @@ import co.yedam.student.serviceImpl.StudentServiceImpl;
 /**
  * Servlet implementation class RemStudentServlet
  */
-@WebServlet("/delStudent.do")
-public class RemStudentServlet extends HttpServlet {
+@WebServlet("/addStudent.do")
+public class AddStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RemStudentServlet() {
+    public AddStudentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,15 +42,30 @@ public class RemStudentServlet extends HttpServlet {
     	// TODO Auto-generated method stub
     	req.setCharacterEncoding("UTF-8");
 
-    	String stuID = req.getParameter("studentId");
-    	if(stuID == null || stuID.isEmpty()) {
-    		return;
-    	}
+    	String stuID = req.getParameter("sId");
+    	String stuName = req.getParameter("sName");
+    	String stuPass = req.getParameter("sPass");
+    	String stuDept = req.getParameter("sDept");
+    	String stuBirth = req.getParameter("sBirth");
     	
+    	StudentVO vo = new StudentVO();
+    	vo.setStudentId(stuID);
+    	vo.setStudentName(stuName);
+    	vo.setStudentPassword(stuPass);
+    	vo.setStudentDept(stuDept);
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	try {
+			vo.setStudentBirthday(sdf.parse(stuBirth));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     	resp.setContentType("application/json; charset=UTF-8");
     	StudentService svc = new StudentServiceImpl();
-    	boolean ret = svc.removeStudent(stuID);
     	
+    	boolean ret = svc.addStudent(vo);
     	PrintWriter out = resp.getWriter();
     	// {"retCode":"OK"}
     	String jsonResult = "{\"retCode\":";

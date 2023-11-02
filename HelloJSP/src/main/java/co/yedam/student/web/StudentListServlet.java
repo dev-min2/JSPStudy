@@ -60,7 +60,7 @@ public class StudentListServlet extends HttpServlet {
     	StudentService svc = new StudentServiceImpl();
     	List<StudentVO> list = svc.listStudent();
     	
-    	Gson gson = new GsonBuilder().create();
+    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     	String jsonStr = gson.toJson(list);
     	
     	PrintWriter out = resp.getWriter();

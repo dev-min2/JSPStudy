@@ -2,10 +2,10 @@ package co.yedam.student.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,24 +20,18 @@ import co.yedam.student.service.StudentVO;
 import co.yedam.student.serviceImpl.StudentServiceImpl;
 
 /**
- * Servlet implementation class RemStudentServlet
+ * Servlet implementation class GetStudentServlet
  */
-@WebServlet("/delStudent.do")
-public class RemStudentServlet extends HttpServlet {
+@WebServlet("/getStudent.do")
+public class GetStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RemStudentServlet() {
+    public GetStudentServlet() {
         super();
         // TODO Auto-generated constructor stub
-    }
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-    	// TODO Auto-generated method stubz
-    	super.init(config);
     }
     
     @Override
@@ -51,18 +45,24 @@ public class RemStudentServlet extends HttpServlet {
     	}
     	
     	resp.setContentType("application/json; charset=UTF-8");
+    	Map<String,Object> jsonMap = new HashMap<>();
+    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		
     	StudentService svc = new StudentServiceImpl();
-    	boolean ret = svc.removeStudent(stuID);
+    	StudentVO ret = svc.getStudent(stuID);
+    	
+    	if(ret != null) {
+    		jsonMap.put("retCode", "OK");
+    		jsonMap.put("student", ret);
+    	}
+    	else { 
+    		jsonMap.put("retCode", "FAIL");
+    	}
+    	 
+    	String jsonData = gson.toJson(jsonMap);
     	
     	PrintWriter out = resp.getWriter();
-    	// {"retCode":"OK"}
-    	String jsonResult = "{\"retCode\":";
-    	if(ret)
-    		jsonResult += "\"OK\"}";
-    	else
-    		jsonResult += "\"FAIL\"}";
-    	
-    	out.println(jsonResult);
+    	out.println(jsonData);
     	out.flush();
     }
 }

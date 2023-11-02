@@ -4,18 +4,49 @@
 <head>
 	<meta charset="UTF-8">
 	<title>student/studentInfo.html</title>
-	<style>
-		table {
-			width: 100%;
-		}
-
-		table td {
-			text-align: center;
-		}
-	</style>
-</head>
+	<link rel="stylesheet" href="../css/myStyle.css" </head>
 
 <body>
+
+	<h3>학생정보입력</h3>
+	<div id="inputStudent">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" name="st_id"></td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" name="st_name"></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="st_pass"></td>
+				</tr>
+				<tr>
+					<th>학과</th>
+					<td>
+						<select style="width:100%" name="st_dept">
+							<option value="컴퓨터공학과">컴퓨터공학과</option>
+							<option value="건축공학과">건축공학과</option>
+							<option value="전기공학과">전기공학과</option>
+							<option value="전자공학과">전자공학과</option>
+							<option value="도서공학과">도서공학과</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td><input type="date" name="st_birth" style="width:100%"></td>
+				</tr>
+				<tr>
+					<th colspan="2"><input type="submit" name="st_submit" style="width:100%" value="등록"></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
 	<div id="show">
 		<table border="1">
 			<thead>
@@ -29,71 +60,28 @@
 			<tbody id="list">
 			</tbody>
 		</table>
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="close">&times;</span>
+					<h2>Modal Header</h2>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="sid">
+					<p>이름 : <input type="text" name="name"></p>
+					<p>비밀번호 : <input type="text" name="pass"></p>
+					<p>학과 : <input type="text" name="dept"></p>
+					<p>생년월일 : <input type="date" name="birth"></p>
+				</div>
+				<div class="modal-footer">
+					<button id="modBtn">수정</button>
+				</div>
+			</div>
+		</div>
 	</div>
-	<script>
-		// 페로되면서 바로 실행
-		fetch('../studentList.do')
-			.then(resolve => {
-				return resolve.json();
-			})
-			.then(result => {
-				console.log(result);
-
-				let tbody = document.querySelector('#list');
-
-				let tableTag = document.querySelector('table');
-				result.forEach((json) => {
-					tbody.appendChild(makeTr(json));
-				})
-
-			})
-			.catch(reject => {
-				console.log("에러에러 : ", reject);
-			})
-
-		function makeTr(obj) {
-			let showFields = ['studentId', 'studentName', 'studentBirthday'];
-
-			let tr = document.createElement('tr');
-			for (const prop in obj) {
-				if (showFields.indexOf(prop) < 0)
-					continue;
-
-				const td = document.createElement('td');
-				td.innerHTML = obj[prop];
-
-				tr.appendChild(td);
-			}
-
-			const td = document.createElement('td');
-			let btn = document.createElement('button');
-			btn.innerHTML = '삭제';
-			btn.setAttribute('style', 'width:100%');
-			btn.setAttribute('date-sid', obj.studentId); // dataset.sid으로 접근.
-			btn.addEventListener('click', (e) => {
-
-				// ajax 호출 -> 서블릿
-				fetch('../delStudent.do?studentId=' + obj.studentId)
-					.then(resolve => {
-						return resolve.json()
-					})
-					.then(result => {
-						if(result.retCode == "OK") {
-							alert("지웠음")
-							tr.remove();
-						}
-						else
-							alert("안지워짐")
-					})
-					.catch(reject => {
-						console.log("에러 : ", reject);
-					})
-			})
-
-			td.append(btn);
-			tr.append(td);
-			return tr;
-		}
+	<script src="../js/student.js">
 	</script>
 </body>
 
