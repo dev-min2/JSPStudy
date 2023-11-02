@@ -207,7 +207,13 @@ document.getElementById('modBtn').addEventListener('click', (e) => {
 			console.log(result);
 			if (result.retCode == "OK") {
 				alert("수정완료")
-
+				
+				// 밑과같은 방식도 가능.
+				// 1. let targetTr = document.querySelector('tr[data-sid=' + id + ']');
+				// 2. let newTr = makeTr(vo);
+				// 3. let parentElement = document.querySelector('#list');
+				// 4. parentElement.replaceChild(targetTr, newTr);
+				
 				let findNode = {};
 				for (let node of document.getElementById('list').querySelectorAll('tr')) {
 					if (node.childNodes[0].innerText == id) {
