@@ -9,7 +9,6 @@ import co.yedam.board.serviceImpl.BoardServiceImpl;
 import co.yedam.common.Command;
 
 public class AddBoardControl implements Command {
-
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
