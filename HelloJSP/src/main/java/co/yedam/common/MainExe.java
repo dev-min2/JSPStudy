@@ -1,32 +1,36 @@
 package co.yedam.common;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import co.yedam.student.service.StudentService;
-import co.yedam.student.service.StudentVO;
-import co.yedam.student.serviceImpl.StudentServiceImpl;
+import co.yedam.board.service.BoardService;
+import co.yedam.board.service.BoardVO;
+import co.yedam.board.serviceImpl.BoardServiceImpl;
 
 public class MainExe {
 	public static void main(String[] args) throws ParseException {
-		StudentService svc = new StudentServiceImpl();
+		BoardService svc = new BoardServiceImpl();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		StudentVO vo = new StudentVO();
-		vo.setStudentId("minkk");
-		vo.setStudentName("킹민교2");
-		vo.setStudentPassword("123456");
-		vo.setStudentDept("건축공학과");
-		vo.setStudentBirthday(sdf.parse("2001-05-05"));
+		BoardVO vo = new BoardVO();
+		vo.setTitle("민교");
+		vo.setContent("안녕 난 민교야");
+		vo.setWriter("민교");
+		vo.setImage("이미지얌~");
 		
-		List<StudentVO> vo2 =svc.listStudent();
-//		
-//		vo2.stream().forEach((obj) -> {
-//			System.out.println(obj);
-//		});
+		//svc.addBoard(vo);
 		
-		svc.editStudent(vo);
+		List<BoardVO> vos = svc.getBoardList();
+		
+		vos.forEach(obj -> {
+			System.out.println(obj);
+		});
+		
+		vo = svc.getBoard(4);
+		vo.setTitle("민교킹");
+		vo.setContent("집가고싶어");
+		svc.editBoard(vo);
+		
+		svc.removeBoard(5);
 		
 	}
 }

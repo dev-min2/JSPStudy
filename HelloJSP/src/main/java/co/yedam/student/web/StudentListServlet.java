@@ -54,7 +54,6 @@ public class StudentListServlet extends HttpServlet {
     	String name = req.getParameter("name");
     	String age = req.getParameter("age");
     	
-    	System.out.println("Service call!");
     	resp.setContentType("application/json; charset=UTF-8");
     	
     	StudentService svc = new StudentServiceImpl();
@@ -71,9 +70,6 @@ public class StudentListServlet extends HttpServlet {
     @Override
     public void destroy() {
     	// TODO Auto-generated method stub
-    	//
-    	//
-    	//
     	System.out.println("destroy call!");
     }
 }
