@@ -163,4 +163,24 @@ public class BoardDAO {
 		
 		return result;
 	}
+	
+	public int updateViewCnt(int boardNo) {
+		String sql = "UPDATE BOARD SET VIEW_CNT = VIEW_CNT + 1 WHERE BOARD_NO = ?";
+		int result = 0;
+
+		Connection conn = DBConnectionPool.getInstance().getPoolConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(null, pstmt, conn);
+		}
+		
+		return result;
+	}
 }

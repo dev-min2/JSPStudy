@@ -11,7 +11,6 @@
 	<%
 	BoardVO vo = (BoardVO)request.getAttribute("bno");
 	%>
-	
 	<table border="1">
 		<tr>
 			<th>글번호</th>
@@ -37,5 +36,6 @@
 			<td><%=vo.getViewCnt() %></td>
 		</tr>
 	</table>
+	<p><a href="boardList.do">목록으로</a></p>
 </body>
 </html>

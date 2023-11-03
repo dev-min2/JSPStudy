@@ -14,6 +14,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardVO getBoard(int boardNo) {
+		dao.updateViewCnt(boardNo);
 		return dao.select(boardNo);
 	}
 
@@ -30,5 +31,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public boolean removeBoard(int boardNo) {
 		return dao.delete(boardNo) > 0 ? true : false;
+	}
+
+	@Override
+	public boolean updateViewCnt(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.updateViewCnt(boardNo) > 0 ? true : false;
 	}
 }

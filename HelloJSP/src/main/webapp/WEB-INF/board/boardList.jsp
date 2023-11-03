@@ -42,5 +42,6 @@
 			%>
 		</tbody>
 	</table>
+	<p><a href="boardForm.do">등록하기</a></p>
 </body>
 </html>
