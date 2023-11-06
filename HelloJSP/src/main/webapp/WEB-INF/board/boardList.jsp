@@ -1,16 +1,11 @@
 <%@page import="co.yedam.board.service.BoardVO"%>
 <%@page import="co.yedam.board.serviceImpl.BoardDAO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@page import="java.util.List"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>게시판목록(board/boardList.jsp)</title>
-</head>
-<body>
+<%@include file="../layout/menu.jsp" %>
+<%@include file="../layout/header.jsp" %>
 	<h3>게시판 목록</h3>
 
 	<%
@@ -18,7 +13,7 @@
 	Object obj = request.getAttribute("boardList");
 	List<BoardVO> vos = (List<BoardVO>) obj;
 	%>
-	<table border="1">
+	<table border="1" class="table">
 		<thead>
 			<tr>
 				<th>글번호</th>
@@ -43,5 +38,4 @@
 		</tbody>
 	</table>
 	<p><a href="boardForm.do">등록하기</a></p>
-</body>
-</html>
+<%@include file="../layout/footer.jsp" %>

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.yedam.board.service.BoardVO;
+import co.yedam.board.service.MemberVO;
 import co.yedam.common.DBConnectionPool;
 import co.yedam.student.service.StudentVO;
 
@@ -121,7 +122,7 @@ public class BoardDAO {
 	
 	public int update(BoardVO vo) {
 		String sql = "UPDATE BOARD SET TITLE = ?, CONTENT = ?, "
-				+ "IMAGE = nvl(?,image), LAST_UPDATE = sysdate WHERE BOARD_NO = ? ";
+				+ "IMAGE = nvl(?,image), WRITER = ?, LAST_UPDATE = sysdate WHERE BOARD_NO = ? ";
 		int result = 0;
 
 		Connection conn = DBConnectionPool.getInstance().getPoolConnection();
@@ -132,7 +133,8 @@ public class BoardDAO {
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
 			pstmt.setString(3, vo.getImage());
-			pstmt.setInt(4, vo.getBoardNo());
+			pstmt.setString(4, vo.getWriter());
+			pstmt.setInt(5, vo.getBoardNo());
 
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -181,6 +183,67 @@ public class BoardDAO {
 			close(null, pstmt, conn);
 		}
 		
+		return result;
+	}
+	
+	public MemberVO getMember(String id, String password) {
+		String sql = "SELECT * FROM MEMBER WHERE MID = ? AND PASS = ?";
+		MemberVO result = null;
+
+		Connection conn = DBConnectionPool.getInstance().getPoolConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, password);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = new MemberVO();
+				
+				result.setMId(rs.getString("MID"));
+				result.setPass(rs.getString("PASS"));
+				result.setName(rs.getString("NAME"));
+				result.setPhone(rs.getString("PHONE"));
+				result.setResponsibility(rs.getString("RESPONSIBILITY"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, conn);
+		}
+
+		return result;
+	}
+	
+	public List<MemberVO> getAllMember() {
+		String sql = "SELECT * FROM MEMBER";
+		List<MemberVO> result = new ArrayList<MemberVO>();
+		
+		Connection conn = DBConnectionPool.getInstance().getPoolConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				MemberVO vo = new MemberVO();
+				
+				vo.setMId(rs.getString("MID"));
+				vo.setPass(rs.getString("PASS"));
+				vo.setName(rs.getString("NAME"));
+				vo.setPhone(rs.getString("PHONE"));
+				vo.setResponsibility(rs.getString("RESPONSIBILITY"));
+				result.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, conn);
+		}
+
 		return result;
 	}
 }

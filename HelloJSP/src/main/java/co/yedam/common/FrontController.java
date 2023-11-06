@@ -13,6 +13,13 @@ import co.yedam.board.web.AddBoardControl;
 import co.yedam.board.web.BoardFormControl;
 import co.yedam.board.web.BoardListControl;
 import co.yedam.board.web.GetBoardControl;
+import co.yedam.board.web.LoginControl;
+import co.yedam.board.web.LoginFormControl;
+import co.yedam.board.web.MemberListControl;
+import co.yedam.board.web.ModifyBoardControl;
+import co.yedam.board.web.ModifyFormControl;
+import co.yedam.board.web.RemoveBoardControl;
+import co.yedam.board.web.RemoveFormControl;
 
 public class FrontController extends HttpServlet {
 	/**
@@ -23,10 +30,25 @@ public class FrontController extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
+		// 메인페이지.
+		map.put("/main.do", new MainControl());
+		// 로그인
+		map.put("/loginForm.do", new LoginFormControl());
+		map.put("/login.do", new LoginControl());
+		// 로그아웃
+		map.put("/logout.do", new LogoutControl());
+		//관리자
+		map.put("/memberList.do", new MemberListControl());
+		
+		
 		map.put("/boardList.do", new BoardListControl());
 		map.put("/getBoard.do", new GetBoardControl());
 		map.put("/boardForm.do", new BoardFormControl()); // 화면만 보여주기 
 		map.put("/addBoard.do", new AddBoardControl());
+		map.put("/modifyForm.do", new ModifyFormControl());
+		map.put("/modifyBoard.do", new ModifyBoardControl());
+		map.put("/removeForm.do", new RemoveFormControl());
+		map.put("/removeBoard.do", new RemoveBoardControl());
 	}
 	
 	//끼양

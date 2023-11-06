@@ -4,6 +4,7 @@ import java.util.List;
 
 import co.yedam.board.service.BoardService;
 import co.yedam.board.service.BoardVO;
+import co.yedam.board.service.MemberVO;
 
 public class BoardServiceImpl implements BoardService {
 	BoardDAO dao = new BoardDAO();
@@ -37,5 +38,19 @@ public class BoardServiceImpl implements BoardService {
 	public boolean updateViewCnt(int boardNo) {
 		// TODO Auto-generated method stub
 		return dao.updateViewCnt(boardNo) > 0 ? true : false;
+	}
+
+	@Override
+	public MemberVO loginCheck(String id, String password) {
+		if(id == null || id.isEmpty() || password == null || password.isEmpty()) {
+			System.out.println("비어있음.");
+		}
+		return dao.getMember(id, password);
+	}
+
+	@Override
+	public List<MemberVO> getMemberList() {
+		// TODO Auto-generated method stub
+		return dao.getAllMember();
 	}
 }
