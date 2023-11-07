@@ -1,43 +1,56 @@
 package co.yedam.board.serviceImpl;
-
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import co.yedam.board.mapper.BoardMapper;
 import co.yedam.board.service.BoardService;
 import co.yedam.board.service.BoardVO;
 import co.yedam.board.service.MemberVO;
+import co.yedam.common.DataSourceMybatis;
 
 public class BoardServiceImpl implements BoardService {
-	BoardDAO dao = new BoardDAO();
+	private BoardDAO dao = new BoardDAO();
+	
+	private SqlSessionFactory s = DataSourceMybatis.getInstance();
+	private SqlSession sqlSession = s.openSession(true);
+	private BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+	
+	public void close() {
+		sqlSession.close();
+	}
+	
 	@Override
 	public List<BoardVO> getBoardList() {
-		return dao.selectAll();
+		return mapper.selectBoardAll();
 	}
 
 	@Override
 	public BoardVO getBoard(int boardNo) {
-		dao.updateViewCnt(boardNo);
-		return dao.select(boardNo);
+		mapper.updateViewCnt(boardNo);
+		return mapper.select(boardNo);
 	}
 
 	@Override
 	public boolean addBoard(BoardVO vo) {
-		return dao.insert(vo) > 0 ? true : false;
+		return mapper.insert(vo) > 0 ? true : false;
 	}
 
 	@Override
 	public boolean editBoard(BoardVO vo) {
-		return dao.update(vo) > 0 ? true : false;
+		return mapper.update(vo) > 0 ? true : false;
 	}
 
 	@Override
 	public boolean removeBoard(int boardNo) {
-		return dao.delete(boardNo) > 0 ? true : false;
+		return mapper.delete(boardNo) > 0 ? true : false;
 	}
 
 	@Override
 	public boolean updateViewCnt(int boardNo) {
 		// TODO Auto-generated method stub
-		return dao.updateViewCnt(boardNo) > 0 ? true : false;
+		return mapper.updateViewCnt(boardNo) > 0 ? true : false;
 	}
 
 	@Override
@@ -45,12 +58,13 @@ public class BoardServiceImpl implements BoardService {
 		if(id == null || id.isEmpty() || password == null || password.isEmpty()) {
 			System.out.println("비어있음.");
 		}
-		return dao.getMember(id, password);
+		
+		return mapper.selectMember(id, password);
 	}
 
 	@Override
 	public List<MemberVO> getMemberList() {
 		// TODO Auto-generated method stub
-		return dao.getAllMember();
+		return mapper.selectMemberAll();
 	}
 }

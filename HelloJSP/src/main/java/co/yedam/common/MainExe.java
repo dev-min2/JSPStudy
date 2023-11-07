@@ -3,34 +3,36 @@ package co.yedam.common;
 import java.text.ParseException;
 import java.util.List;
 
-import co.yedam.board.service.BoardService;
-import co.yedam.board.service.BoardVO;
-import co.yedam.board.serviceImpl.BoardServiceImpl;
+import org.apache.ibatis.session.SqlSession;
+
+import co.yedam.reply.mapper.ReplyMapper;
+import co.yedam.reply.service.ReplyVO;
 
 public class MainExe {
 	public static void main(String[] args) throws ParseException {
-		BoardService svc = new BoardServiceImpl();
+		SqlSession session = //
+					DataSourceMybatis.getInstance().openSession(true);
 		
-		BoardVO vo = new BoardVO();
-		vo.setTitle("민교");
-		vo.setContent("안녕 난 민교야");
-		vo.setWriter("민교");
-		vo.setImage("이미지얌~");
+		ReplyMapper mapper = session.getMapper(ReplyMapper.class);
 		
-		//svc.addBoard(vo);
+		List<ReplyVO> vos = mapper.selectReplyAll(7);
 		
-		List<BoardVO> vos = svc.getBoardList();
-		
-		vos.forEach(obj -> {
+		vos.forEach((obj) -> {
 			System.out.println(obj);
 		});
 		
-		vo = svc.getBoard(4);
-		vo.setTitle("민교킹");
-		vo.setContent("집가고싶어");
-		svc.editBoard(vo);
 		
-		svc.removeBoard(5);
+		ReplyVO vo = new ReplyVO();
+		vo.setReplyNo(11);
+		vo.setBoardNo(7);
+		vo.setReply("집이너무너무가고싶어요");
+		vo.setReplyer("M001");
+//		
+//		if(mapper.insertReply(vo) > 0) {
+//			System.out.println("삽입성공");
+//		}
+		
+		System.out.println(mapper.selectReply(3));
 		
 	}
 }
