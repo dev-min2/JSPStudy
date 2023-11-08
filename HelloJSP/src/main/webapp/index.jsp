@@ -10,7 +10,9 @@
 	<%
 	// boardList는 요청을 넘긴것이고(Model->View)
 	// 요건 해당 페이지로 새롭게 요청하게끔 유도(request,response 유지안댐)
-	response.sendRedirect("main.do");
+	//response.sendRedirect("main.do");
 	%>
+	
+	<jsp:forward page="main.do"></jsp:forward>
 </body>
 </html>

@@ -1,14 +1,8 @@
-<%@page import="co.yedam.board.service.MemberVO"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<%@include file="../layout/menu.jsp" %>
-<%@include file="../layout/header.jsp" %>
-
-<%
-	List<MemberVO> vos = (List<MemberVO>)request.getAttribute("list");
-%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:include page="../layout/menu.jsp"></jsp:include>
+<jsp:include page="../layout/header.jsp"></jsp:include>
 
 <table border="1" class="table">
 	<thead>
@@ -21,16 +15,19 @@
 		</tr>
 	</thead>
 	<tbody>
-		<%for(int i = 0; i < vos.size(); ++i) { %>
+		<!-- VO 필드명과 동일하면 된다. -->
+		<c:forEach items="${list }" var="member">
 			<tr>
-				<td><%=vos.get(i).getMId() %></td>
-				<td><%=vos.get(i).getPass() %></td>
-				<td><%=vos.get(i).getName() %></td>
-				<td><%=vos.get(i).getPhone() %></td>
-				<td><%=vos.get(i).getResponsibility() %></td>
-			</tr>
-		<%} %>
+				<td>${member.mid}</td>
+				<td>${member.pass}</td>
+				<td>${member.name}</td>
+				<td>${member.phone}</td>
+				<td>${member.responsibility}</td>
+			</tr>	
+		</c:forEach>
+		
+		
 	</tbody>
 </table>
 
-<%@include file="../layout/footer.jsp" %>
+<jsp:include page="../layout/footer.jsp"></jsp:include>

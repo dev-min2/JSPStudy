@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,35 +16,32 @@
 <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
-<%
-	String loginId = (String)session.getAttribute("login");
-	boolean isAdmin = session.getAttribute("ADMIN") != null ? true : false;
-%>
+<c:set var="login" value="${login}" scope="session" />
+	
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
 		<div class="border-end bg-white" id="sidebar-wrapper">
-			<%if(loginId != null) { %>
-			<div class="sidebar-heading border-bottom bg-light">(<%=loginId %>) 환영합니다.</div>
-			<%} else { %>
-			<div class="sidebar-heading border-bottom bg-light">(Guest)는 집을 가고싶습니다.</div>
-			<%} %>
+			<c:choose>
+			<c:when test="${empty login }"> 
+				<div class="sidebar-heading border-bottom bg-light">(Guest)는 집을 가고싶습니다.</div>
+			</c:when> 
+			<c:otherwise>
+				<div class="sidebar-heading border-bottom bg-light">(${login}) 환영합니다.</div>	
+			</c:otherwise> 
+			</c:choose>
 			<div class="list-group list-group-flush">
 				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="boardList.do">게시글 목록</a>
-				<%
-				if(loginId == null) {
-			 	%>
-			 	<a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인</a>
-			 	<%
-				} else {
-			 	%>
-			 	<a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
-			 	<%
-			 	}
-			 	%>
-			 	<!-- 관리자 권한일 경우만 ^ㅁ^ -->
-			 	<%if(isAdmin) { %>
-				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="memberList.do">회원관리</a>
-				<%} %> 
+				<c:choose>
+				<c:when test="${empty login}">
+					<a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인</a>
+				</c:when>
+			 	<c:otherwise>
+					<a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>			 		
+			 	</c:otherwise>
+			 	</c:choose>
+			 	<c:if test="${ADMIN != null}">
+					<a class="list-group-item list-group-item-action list-group-item-light p-3" href="memberList.do">회원관리</a>
+				</c:if>
 				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a> 
 				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a> 
 				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>

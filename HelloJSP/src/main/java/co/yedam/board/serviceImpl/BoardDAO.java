@@ -202,7 +202,7 @@ public class BoardDAO {
 			if(rs.next()) {
 				result = new MemberVO();
 				
-				result.setMId(rs.getString("MID"));
+				result.setMid(rs.getString("MID"));
 				result.setPass(rs.getString("PASS"));
 				result.setName(rs.getString("NAME"));
 				result.setPhone(rs.getString("PHONE"));
@@ -231,7 +231,7 @@ public class BoardDAO {
 			while(rs.next()) {
 				MemberVO vo = new MemberVO();
 				
-				vo.setMId(rs.getString("MID"));
+				vo.setMid(rs.getString("MID"));
 				vo.setPass(rs.getString("PASS"));
 				vo.setName(rs.getString("NAME"));
 				vo.setPhone(rs.getString("PHONE"));

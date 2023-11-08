@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberVO {
-	private String mId;
+	private String mid;
 	private String pass;
 	private String name;
 	private String phone;

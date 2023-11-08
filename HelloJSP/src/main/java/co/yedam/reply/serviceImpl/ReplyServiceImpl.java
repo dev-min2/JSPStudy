@@ -19,9 +19,9 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 	
 	@Override
-	public List<ReplyVO> replyList(int boardNo) {
+	public List<ReplyVO> replyList(int boardNo, int page) {
 		// TODO Auto-generated method stub
-		return mapper.selectReplyAll(boardNo);
+		return mapper.selectReplyAll(boardNo, page);
 	}
 
 	@Override
@@ -46,6 +46,12 @@ public class ReplyServiceImpl implements ReplyService {
 	public boolean deleteReply(int replyNo) {
 		// TODO Auto-generated method stub
 		return mapper.deleteReply(replyNo) > 0 ? true : false;
+	}
+
+	@Override
+	public int getReplyCnt(int boardNo) {
+		// TODO Auto-generated method stub
+		return mapper.getTotalCnt(boardNo);
 	}
 	
 }
