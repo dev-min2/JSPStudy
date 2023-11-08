@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import co.yedam.common.ChartVO;
 import co.yedam.common.DataSourceMybatis;
 import co.yedam.reply.mapper.ReplyMapper;
 import co.yedam.reply.service.ReplyService;
@@ -53,5 +54,10 @@ public class ReplyServiceImpl implements ReplyService {
 		// TODO Auto-generated method stub
 		return mapper.getTotalCnt(boardNo);
 	}
-	
+
+	@Override
+	public List<ChartVO> getReplyCntByMember() {
+		// TODO Auto-generated method stub
+		return mapper.getReplyCntByMember();
+	}
 }

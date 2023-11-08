@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import co.yedam.common.ChartVO;
 import co.yedam.reply.service.ReplyVO;
 
 // Mapper인터페이스의 메소드명은 Mapper.xml의 id와 매핑되어야함
@@ -16,4 +17,6 @@ public interface ReplyMapper {
 	
 	// 댓글갯수
 	public int getTotalCnt(int boardNo);
+	// 전체 게시판 회원별 댓글 개수
+	public List<ChartVO> getReplyCntByMember();
 }

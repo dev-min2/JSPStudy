@@ -34,4 +34,10 @@
   <select id="getTotalCnt" resultType="int">
   	SELECT COUNT(*) FROM REPLY WHERE BOARD_NO = #{boardNo}
   </select>
+  
+  <select id="getReplyCntByMember" resultType="co.yedam.common.ChartVO">
+  	SELECT REPLYER, count(*) AS REPLY_CNT
+    FROM REPLY
+    GROUP BY REPLYER
+  </select>
 </mapper>

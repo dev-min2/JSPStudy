@@ -42,7 +42,7 @@
 			 	<c:if test="${ADMIN != null}">
 					<a class="list-group-item list-group-item-action list-group-item-light p-3" href="memberList.do">회원관리</a>
 				</c:if>
-				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a> 
+				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="chartForm.do">차트보기</a> 
 				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a> 
 				<a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
 			</div>
