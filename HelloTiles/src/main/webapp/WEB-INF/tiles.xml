@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<tiles-definitions>
+
+  <definition name="boardpage" template="/WEB-INF/layouts/template.jsp">
+    <put-attribute name="title" value="게시판 템플릿" />
+    <put-attribute name="header" value="/WEB-INF/layouts/header.jsp" />
+    <put-attribute name="menu" value="/WEB-INF/layouts/menu.jsp" />
+    <put-attribute name="body" value="/WEB-INF/layouts/body.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp" />
+  </definition>
+  
+  <!-- 추가적인 정보를 담고싶을 때 상속받을 수 있 -->
+  <!-- *(애스터리스크)하나당 n은 초기값:0 {n+1}  -->
+  <!-- 부모의 레이아웃을 유지하면서 확장하고싶은 부분의 영역만 바꾸어 수정이 가능. -->
+  <definition name="WILDCARD:board/*" extends="boardpage">
+  	<put-attribute name="body" value="/WEB-INF/board/{1}.jsp" />
+  </definition>
+  
+  <definition name="adminpage" template="/WEB-INF/layouts/admtemplate.jsp">
+    <put-attribute name="title" value="관리자 템플릿" />
+    <put-attribute name="header" value="/WEB-INF/layouts/admheader.jsp" />
+    <put-attribute name="menu" value="/WEB-INF/layouts/admmenu.jsp" />
+    <put-attribute name="body" value="/WEB-INF/layouts/admbody.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/layouts/admfooter.jsp" />
+  </definition>
+  
+  <!-- 추가적인 정보를 담고싶을 때 상속받을 수 있 -->
+  <!-- *(애스터리스크)하나당 n은 초기값:0 {n+1}  -->
+  <!-- 부모의 레이아웃을 유지하면서 확장하고싶은 부분의 영역만 바꾸어 수정이 가능. -->
+  <definition name="WILDCARD:admin/*" extends="adminpage">
+  	<put-attribute name="body" value="/WEB-INF/admin/{1}.jsp" />
+  </definition>
+  
+  <!-- 위에서 정해진 순서대로 호출. -->
+  <definition name="WILDCARD:*/*" extends="boardpage">
+  	<put-attribute name="body" value="/WEB-INF/{1}/{2}.jsp" />
+  </definition>
+  
+</tiles-definitions>

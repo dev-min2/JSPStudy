@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper SYSTEM "path/mybatis-3-mapper.dtd">
+<mapper namespace="co.yedam.reply.mapper.ReplyMapper">
+  <select id="selectReplyAll" resultType="co.yedam.reply.service.ReplyVO">
+  <!-- 쿼리상의 연산자 문법이라는것을 알려줘야함 -->
+  <![CDATA[  
+    SELECT *
+    FROM (
+        SELECT /*+ INDEX(r SYS_C008416) */ rownum rn, r.*
+        FROM REPLY r
+        WHERE r.board_no = #{boardNo}
+    ) a
+    WHERE a.rn > (#{page} - 1) * 5 
+    AND a.rn <= (#{page}) * 5
+  ]]>
+  </select>
+  <select id="selectReply" resultType="co.yedam.reply.service.ReplyVO" parameterType="int">
+  	SELECT * FROM REPLY WHERE REPLY_NO = #{replyNo}
+  </select>
+  <insert id="insertReply" parameterType="co.yedam.reply.service.ReplyVO">
+  	<selectKey keyProperty="replyNo" resultType="int" order="BEFORE">
+    	SELECT SEQ_REPLY.NEXTVAL AS REPLY_NO FROM DUAL
+  	</selectKey>
+  	INSERT INTO REPLY VALUES(#{replyNo}, #{boardNo}, #{reply}, #{replyer}, #{replyDate})
+  </insert>
+  <update id="updateReply" parameterType="co.yedam.reply.service.ReplyVO">
+  	UPDATE REPLY SET REPLY = #{reply}, 
+  		REPLYER = #{replyer}, REPLY_DATE = #{replyDate} WHERE REPLY_NO = #{replyNo}
+  </update>
+  <delete id="deleteReply" parameterType="int">
+  	DELETE FROM REPLY WHERE REPLY_NO = #{replyNo}
+  </delete>
+  
+  <select id="getTotalCnt" resultType="int">
+  	SELECT COUNT(*) FROM REPLY WHERE BOARD_NO = #{boardNo}
+  </select>
+  
+  <select id="getReplyCntByMember" resultType="map">
+  	SELECT REPLYER, count(*) AS REPLY_CNT
+    FROM REPLY
+    GROUP BY REPLYER
+  </select>
+</mapper>
