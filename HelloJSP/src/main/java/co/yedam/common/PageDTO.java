@@ -17,9 +17,7 @@ public class PageDTO {
 		
 		this.boardNo = boardNo;
 		this.total = total;
-		// EX) 내가 현재 13페이지. 보이는건 10 ~ 13 ~ 15.
-		
-		// 
+
 		this.endPage = (int)Math.ceil(currentPage / 10.0)  * 10;
 		this.startPage = this.endPage - 9;
 		
@@ -34,6 +32,4 @@ public class PageDTO {
 				+ ", startPage=" + startPage + ", endPage=" + endPage + ", lastPage=" + lastPage + ", boardNo="
 				+ boardNo + ", showContentCnt=" + showContentCnt + "]";
 	}
-	
-	
 }

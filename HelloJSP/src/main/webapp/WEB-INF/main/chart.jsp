@@ -15,8 +15,8 @@
     	  let arrayData = [];
     	  arrayData.push(['Member','replyCountByMember']);
     	  
-    	  result.vo.forEach((obj) => {
-    		  arrayData.push([obj.replyer, obj.replyCnt]);  
+    	  result.forEach((obj) => {
+    		  arrayData.push([obj.REPLYER, obj.REPLY_CNT]);  
     	  })
       	  
       	  console.log(arrayData);
@@ -33,8 +33,6 @@
 			chart.draw(data, options);
 		  }
       })
-      
-      
     </script>
 	<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>

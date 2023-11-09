@@ -21,15 +21,14 @@ public class DrawChartControl implements Command {
 		// TODO Auto-generated method stub
 		// json 데이터 => [작성자, 건수]
 		ReplyService svc = new ReplyServiceImpl();
-		List<ChartVO> vo = svc.getReplyCntByMember();
+		List<Map<String,Object>> vo = svc.getReplyCntByMember();
 		
-		Map<String, Object> map = new HashMap<String,Object>();
+		System.out.println(vo);
+		
+		//Map<String, Object> map = new HashMap<String,Object>();
 		Gson gson = new GsonBuilder().create();
 		
-		if(vo != null)
-			map.put("vo", vo);
-		
-		String json = gson.toJson(map);
+		String json = gson.toJson(vo);
 		try {
 			resp.getWriter().print(json);
 		} catch (IOException e) {
